@@ -30,3 +30,12 @@ vim.opt.showmode = false
 vim.opt.timeoutlen = 300
 
 opt.ch = 0
+
+-- Disable all visual diagnostic markers
+vim.diagnostic.config({
+  virtual_text = false, -- Removes ghost text at the end of lines
+  signs = false,        -- Removes 'E' from the gutter
+  underline = false,    -- Removes squiggly lines
+  update_in_insert = false,
+  severity_sort = false,
+})

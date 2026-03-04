@@ -20,6 +20,9 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window" })
 vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev Tab" })
 vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Tab" })
 
+-- Save file with Ctrl + S in Normal, Insert, and Visual modes
+vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+
 -- Close current tab (buffer)
 -- Using a silent call to handle the last-buffer edge case
 vim.keymap.set("n", "<C-w>", function()
@@ -30,3 +33,6 @@ vim.keymap.set("n", "<C-w>", function()
     vim.cmd("bdelete")
   end
 end, { desc = "Close Tab (Smart)" })
+
+-- Stop Space from moving the cursor in Normal and Visual modes
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
