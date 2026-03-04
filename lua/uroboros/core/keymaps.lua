@@ -36,3 +36,6 @@ end, { desc = "Close Tab (Smart)" })
 
 -- Stop Space from moving the cursor in Normal and Visual modes
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
+-- Return to the Dashboard (Main Menu)
+vim.keymap.set("n", "<leader>mm", function() Snacks.dashboard.open() end, { desc = "Go to Main Menu" })

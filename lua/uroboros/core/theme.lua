@@ -10,7 +10,7 @@ M.palettes = {
         accent_alt = "#952F3F",
         comment = "#8B628C",
         border = "#422B5E",
-        muted = "#422B5E", -- Muted gray/purple for lines
+        muted = "#422B5E",
     },
     cosmic = {
         bg = "#0F0E17",
@@ -20,7 +20,7 @@ M.palettes = {
         accent_alt = "#C71585",
         comment = "#5A6B92",
         border = "#26233A",
-        muted = "#1E2030", -- Subtle space gray
+        muted = "#1E2030",
     },
     earthy = {
         bg = "#1A3C34",
@@ -30,7 +30,7 @@ M.palettes = {
         accent_alt = "#CC7722",
         comment = "#8BA888",
         border = "#4A2C1F",
-        muted = "#2A3C34", -- Deep forest shadow
+        muted = "#2A3C34",
     },
     monochrome = {
         bg = "#000000",
@@ -40,7 +40,7 @@ M.palettes = {
         accent_alt = "#FF0033",
         comment = "#555555",
         border = "#333333",
-        muted = "#222222", -- Dark charcoal
+        muted = "#222222",
     }
 }
 
@@ -67,9 +67,9 @@ function M.setup(theme_name)
     set_hl("WinSeparator", { fg = c.border })
     set_hl("VertSplit", { fg = c.border })
 
-    -- NEW: INDENT LINE HIGHLIGHTS
-    set_hl("IndentLineMuted", { fg = c.muted }) -- Static background lines
-    set_hl("IndentScopeGlow", { fg = c.accent, bold = true }) -- Active glowing line
+    -- INDENT LINE HIGHLIGHTS
+    set_hl("IndentLineMuted", { fg = c.muted }) 
+    set_hl("IndentScopeGlow", { fg = c.accent, bold = true }) 
 
     -- PLUGINS
     set_hl("TelescopeBorder", { fg = c.border, bg = c.bg })
@@ -91,5 +91,22 @@ function M.setup(theme_name)
     set_hl("Operator", { fg = c.accent })
     set_hl("Type", { fg = c.accent_alt })
 end
+
+-- Create the command
+vim.api.nvim_create_user_command("Uroboros", function(opts)
+    local theme = opts.args
+    if M.palettes[theme] then
+        M.setup(theme)
+        print("Uroboros theme set to: " .. theme)
+    else
+        print("Theme '" .. theme .. "' not found.")
+    end
+end, {
+    nargs = 1,
+    complete = function()
+        return vim.tbl_keys(M.palettes) 
+    end,
+})
+
 
 return M
