@@ -2,26 +2,31 @@ return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   config = function()
-    -- We use pcall to prevent the 'module not found' from freezing Neovim
     local status, configs = pcall(require, "nvim-treesitter.configs")
-    if not status then 
-      return 
-    end
+    if not status then return end
+
+    require('nvim-treesitter.install').compilers = { "zig", "g++", "gcc", "clang", "cl" }
 
     configs.setup({
-      -- A list of parser names to install automatically
-      ensure_installed = { "lua", "vim", "vimdoc", "javascript", "html", "css", "python" },
-      
-      -- Enable syntax highlighting
+      ensure_installed = { 
+        "lua", 
+        "vim", 
+        "vimdoc", 
+        "python", 
+        "markdown", 
+        "c", 
+        "cpp", 
+        "html", 
+        "css",
+        "javascript"
+      },
+      sync_install = false,
+      auto_install = true,
       highlight = {
         enable = true,
-        additional_vim_regex_highlighting = false,
+        additional_vim_regex_highlighting = false, 
       },
-      
-      -- Enable better indentation
-      indent = {
-        enable = true,
-      },
+      indent = { enable = true },
     })
   end,
 }

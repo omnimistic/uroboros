@@ -2,6 +2,10 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  keys = {
+    { "<C-/>", function() Snacks.terminal() end, desc = "Toggle Terminal" },
+    { "<C-_>", function() Snacks.terminal() end, desc = "which_key_ignore" },
+  },
   opts = {
     picker = {
       projects = {
@@ -26,14 +30,25 @@ return {
         {
           section = "terminal",
           cmd = "nvim --headless -l " .. vim.fn.stdpath("config") .. "/lua/uroboros/core/anim.lua",
-          
-          height = 24, 
+          height = 24,
           padding = 1,
         },
-
         { section = "keys", gap = 1, padding = 1 },
         { section = "startup" },
       },
     },
+    terminal = {
+      win = {
+        style = "terminal",
+        border = "rounded",
+      },
+    },
+    input = { enabled = true },
+    notifier = { enabled = true },
+    styles = {
+      notification = {
+        wo = { wrap = true } 
+      }
+    }
   },
 }
