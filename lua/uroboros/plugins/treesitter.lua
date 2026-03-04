@@ -1,24 +1,12 @@
 return {
   "nvim-treesitter/nvim-treesitter",
+  branch = "master",
   build = ":TSUpdate",
   config = function()
-    local status, configs = pcall(require, "nvim-treesitter.configs")
-    if not status then return end
-
-    require('nvim-treesitter.install').compilers = { "zig", "g++", "gcc", "clang", "cl" }
-
-    configs.setup({
+    require("nvim-treesitter.configs").setup({
       ensure_installed = { 
-        "lua", 
-        "vim", 
-        "vimdoc", 
-        "python", 
-        "markdown", 
-        "c", 
-        "cpp", 
-        "html", 
-        "css",
-        "javascript"
+        "lua", "vim", "vimdoc", "python", "markdown",
+        "markdown_inline", "c", "cpp", "html", "css", "javascript"
       },
       sync_install = false,
       auto_install = true,

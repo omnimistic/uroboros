@@ -1,6 +1,9 @@
 return {
   "folke/noice.nvim",
   event = "VeryLazy",
+  dependencies = {
+    "MunifTanjim/nui.nvim",
+  },
   opts = {
     lsp = {
       override = {
@@ -14,26 +17,23 @@ return {
       command_palette = true,
       long_message_to_split = true,
       inc_rename = false,
-      lsp_doc_border = false,
+      lsp_doc_border = true,
     },
     routes = {
-      {
-        filter = {
-          event = "cmdline_show",
-          find = "nohl",
-        },
-        opts = { skip = true },
-      },
       {
         filter = {
           event = "msg_show",
           any = {
             { find = "written" },
-            { find = "yielding" },
-            { find = "enqueue" },
+            { find = "yanked" },
+            { find = "%d+L, %d+B" },
+            { find = "substitution"},
+            { find = "lines >ed" },
+            { find = "lines <ed" },
+
           },
         },
-        opts = { skip = true },
+        view = "mini",
       },
     },
   },

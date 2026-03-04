@@ -8,8 +8,10 @@ return {
   },
   opts = {
     picker = {
-      projects = {
-        patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+      sources = { -- We added this wrapper
+        projects = {
+          patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+        },
       },
     },
     dashboard = {

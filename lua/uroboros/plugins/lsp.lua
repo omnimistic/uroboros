@@ -1,27 +1,36 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  config = function()
-    -- We use pcall to prevent the 'module not found' from freezing Neovim
-    local status, configs = pcall(require, "nvim-treesitter.configs")
-    if not status then 
-      return 
-    end
-
-    configs.setup({
-      -- A list of parser names to install automatically
-      ensure_installed = { "lua", "vim", "vimdoc", "javascript", "html", "css", "python" },
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = { "lua_ls", "clangd", "pyright" },
+      })
+    end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      -- 1. Grab the capabilities from nvim-cmp
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       
-      -- Enable syntax highlighting
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
+      -- 2. Define your servers in a list
+      local servers = { "lua_ls", "clangd", "pyright" }
       
-      -- Enable better indentation
-      indent = {
-        enable = true,
-      },
-    })
-  end,
+      -- 3. Use the NEW Neovim 0.11+ native API to configure and enable them
+      for _, server in ipairs(servers) do
+        vim.lsp.config(server, { capabilities = capabilities })
+        vim.lsp.enable(server)
+      end
+      
+      -- Your keymaps
+      vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = "Hover Documentation" })
+      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go to Definition" })
+    end,
+  }
 }
