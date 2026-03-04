@@ -24,7 +24,7 @@ return {
         section_separators = { left = "", right = "" },
       },
       sections = {
-        lualine_a = { { "mode", icon = "🐍" } },
+        lualine_a = { { "mode", icon = "∞" } },
         lualine_b = { "branch" },
         lualine_c = { { "filename", path = 1 } },
         lualine_x = { "diagnostics", "filetype" },
