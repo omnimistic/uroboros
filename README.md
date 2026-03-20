@@ -73,3 +73,51 @@ After all plugins and parsers have finished downloading, quit Neovim completely 
 `:qa` and pressing `Enter`.
 
 Reopen Neovim (`nvim`). Everything should now be fully loaded, themed, and ready to use!
+
+This version is written in the third person, specifically formatted for a GitHub README. It uses a table for the main plugin list to ensure a clean, "dot-free" layout.
+
+---
+
+## 🛠️ Plugin Architecture
+
+This configuration utilizes a curated selection of plugins to enhance the Neovim environment, focusing on performance, modularity, and visual clarity.
+
+| Plugin | Description | Functionality & Integration |
+| :--- | :--- | :--- |
+| **autopairs.lua** | Automated bracket closure | Handles pair expansion and integration with completion engines. |
+| **blink-cmp.lua** | Completion engine | Acts as the primary hub for LSP, snippets, and path suggestions. |
+| **colorizer.lua** | Color highlighter | Provides real-time previews for hex codes and CSS colors. |
+| **colorscheme.lua** | Global aesthetic | Defines the theme and highlight groups for the entire UI. |
+| **conform.lua** | Code formatter | Interfaces with external CLI tools to ensure consistent code style. |
+| **flash.lua** | Enhanced navigation | Enables rapid cursor movement to any search pattern on screen. |
+| **fugitive.lua** | Git integration | Allows for comprehensive version control management via Vim commands. |
+| **gitsigns.lua** | Visual Git indicators | Displays file changes in the sign column and manages hunks. |
+| **harpoon.lua** | File marking tool | Facilitates near-instant switching between frequently used buffers. |
+| **indent-blankline.lua** | Indentation guides | Adds vertical lines to assist with visual code alignment. |
+| **lspconfig.lua** | LSP bridge | Manages the connection between Neovim and Language Servers. |
+| **lualine.lua** | Status line | Provides a fast, informative bar for modes, Git, and diagnostics. |
+| **mason.lua** | Package manager | Orchestrates the installation of LSPs, linters, and formatters. |
+| **mini-ai.lua** | Text objects | Extends the logic for selecting and manipulating code blocks. |
+| **mini-indentscope.lua** | Scope visualization | Animates a vertical line to indicate the current active scope. |
+| **modicator.lua** | Mode-based styling | Dynamically changes line number colors based on the editor mode. |
+| **neoclip.lua** | Clipboard manager | Maintains a searchable history of all previous yanks and deletes. |
+| **noice.lua** | UI overhaul | Modernizes the command line, messages, and popup windows. |
+| **nvim-surround.lua** | Surroundings tool | Provides keys to add, change, or delete brackets and quotes. |
+| **nvim-ts-autotag.lua** | Tag management | Uses Treesitter to automatically close and rename HTML tags. |
+| **persistence.lua** | Session management | Automatically restores the last workspace state upon startup. |
+| **treesitter.lua** | Syntax engine | Parses code for high-performance highlighting and analysis. |
+| **trouble.lua** | Diagnostics UI | Consolidates errors and warnings into a unified, filterable list. |
+| **which-key.lua** | Keybinding menu | Displays interactive popup hints for available command shortcuts. |
+
+---
+
+## 🍿 Snacks.lua
+
+**Snacks.nvim** serves as a high-performance utility hub within this setup. It is configured to replace several bulkier standalone plugins with optimized Lua modules, centralizing the following features:
+
+* **Navigation & Discovery**: Replaces **Telescope** and **Neo-tree** by providing a built-in Picker for file searching and an integrated Explorer for directory management.
+* **Terminal Integration**: Manages a floating, rounded terminal window (`Ctrl+/`) for seamless shell access.
+* **Startup Dashboard**: Powers the initial screen with a custom terminal animation (`anim.lua`) and dedicated keys for session restoration and configuration access.
+* **System Utilities**: Orchestrates smooth scrolling, stylized input fields, and a notification system capable of handling complex text wrapping.
+
+---
