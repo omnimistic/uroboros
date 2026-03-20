@@ -1,19 +1,24 @@
-# Installing the Uroboros Neovim Config
+# Uroboros Neovim Config
 
-### Prerequisites
-Before installing, make sure your system has the required dependencies:
-* **Neovim** (obviously lmao)
-* **Git** (to clone the repo and for plugin management)
-* **Ripgrep** and **fd** (for finding files/words)
-* **A C Compiler** like `gcc` or `clang` (required for compiling Treesitter syntax parsers. The `zig C++ compiler` is recommended for its small size).
-* **A Nerd Font** (so that file and UI icons render correctly).
+A custom Neovim configuration built for speed and simplicity.
 
----
+## Prerequisites
 
-### Step 1: Backup Existing Configurations
-If you have used Neovim before, you should back up your current setup and clear out the old cache to prevent conflicts. *(If you get a "No such file or directory" error during these steps, don't worry—it just means you didn't have previous files there.)*
+Make sure your system has these dependencies before installing:
 
-**For Linux / macOS (Terminal):**
+- **[Neovim](https://neovim.io/doc/install/)** (the editor itself)
+- **[Git](https://git-scm.com/install/)** (for cloning the repo and plugin management)
+- **Ripgrep** and **fd** (for file and text searching)
+- **C Compiler** like `gcc` or `clang` (Treesitter needs this to compile syntax parsers. The `zig C++ compiler` is recommended for its small size)
+- **[Nerd Font](https://www.nerdfonts.com/font-downloads)** (for proper icon rendering in the UI)
+
+## Installation
+
+### Step 1: Backup Your Existing Config
+
+If you already use Neovim, back up your current setup and clear the cache to avoid conflicts. If you see "No such file or directory" errors, that just means you had no previous config files there.
+
+**Linux / macOS:**
 ```bash
 # Backup existing config
 mv ~/.config/nvim ~/.config/nvim.bak
@@ -24,59 +29,57 @@ mv ~/.local/state/nvim ~/.local/state/nvim.bak
 mv ~/.cache/nvim ~/.cache/nvim.bak
 ```
 
-**For Windows (PowerShell):**
+**Windows (PowerShell):**
 ```powershell
 # Backup existing config
 Move-Item $env:LOCALAPPDATA\nvim $env:LOCALAPPDATA\nvim.bak -ErrorAction SilentlyContinue
 
-# Backup Neovim data (cache, state, and downloaded plugins)
+# Backup Neovim data (cache, state, and plugins)
 Move-Item $env:LOCALAPPDATA\nvim-data $env:LOCALAPPDATA\nvim-data.bak -ErrorAction SilentlyContinue
 ```
 
----
+### Step 2: Clone Uroboros
 
-### Step 2: Clone the Repository
-Next, clone the `uroboros` repository directly into your system's Neovim configuration folder.
+Clone the repository directly into your Neovim config directory.
 
-**For Linux / macOS:**
+**Linux / macOS:**
 ```bash
 git clone https://github.com/omnimistic/uroboros ~/.config/nvim
 ```
 
-**For Windows:**
+**Windows:**
 ```powershell
 git clone https://github.com/omnimistic/uroboros $env:LOCALAPPDATA\nvim
 ```
 
----
-
 ### Step 3: Launch Neovim
-Once the repository is cloned, simply open Neovim from your terminal or PowerShell:
 
+Open Neovim from your terminal:
 ```bash
 nvim
 ```
 
----
+### Step 4: Plugin Installation
 
-### Step 4: Let `lazy.nvim` Install Plugins
-Upon opening Neovim for the first time, the `init.lua` file will run. It will automatically detect that `lazy.nvim` is missing, download it, and immediately begin downloading all the plugins specified in the configuration. 
+On first launch, `init.lua` will automatically:
+- Detect that `lazy.nvim` is missing and download it
+- Install all plugins specified in the config
+- Show a progress UI window during installation
 
-* You will see a UI window pop up showing the installation progress. 
-* Wait for all installations to finish.
-* Once the process is complete, you may see parsing messages at the bottom of the screen (this is Treesitter compiling syntax highlighting). 
-
----
+Wait for the installation to complete. You may see Treesitter parsing messages at the bottom while syntax parsers compile.
 
 ### Step 5: Restart Neovim
-After all plugins and parsers have finished downloading, quit Neovim completely by typing:
-`:qa` and pressing `Enter`.
 
-Reopen Neovim (`nvim`). Everything should now be fully loaded, themed, and ready to use!
+After everything finishes installing, quit Neovim:
+```
+:qa
+```
 
-This version is written in the third person, specifically formatted for a GitHub README. It uses a table for the main plugin list to ensure a clean, "dot-free" layout.
+Reopen Neovim with `nvim`. Your config is now fully loaded and ready to use.
 
----
+## Usage
+
+Explore the keybindings and configurations in the `lua` directory to customize Uroboros to your workflow.
 
 ## 🛠️ Plugin Architecture
 
@@ -109,15 +112,54 @@ This configuration utilizes a curated selection of plugins to enhance the Neovim
 | **trouble.lua** | Diagnostics UI | Consolidates errors and warnings into a unified, filterable list. |
 | **which-key.lua** | Keybinding menu | Displays interactive popup hints for available command shortcuts. |
 
----
-
 ## 🍿 Snacks.lua
 
 **Snacks.nvim** serves as a high-performance utility hub within this setup. It is configured to replace several bulkier standalone plugins with optimized Lua modules, centralizing the following features:
 
-* **Navigation & Discovery**: Replaces **Telescope** and **Neo-tree** by providing a built-in Picker for file searching and an integrated Explorer for directory management.
-* **Terminal Integration**: Manages a floating, rounded terminal window (`Ctrl+/`) for seamless shell access.
-* **Startup Dashboard**: Powers the initial screen with a custom terminal animation (`anim.lua`) and dedicated keys for session restoration and configuration access.
-* **System Utilities**: Orchestrates smooth scrolling, stylized input fields, and a notification system capable of handling complex text wrapping.
+- **Navigation & Discovery**: Replaces **Telescope** and **Neo-tree** by providing a built-in Picker for file searching and an integrated Explorer for directory management.
+- **Terminal Integration**: Manages a floating, rounded terminal window (`Ctrl+/`) for seamless shell access.
+- **Startup Dashboard**: Powers the initial screen with a custom terminal animation (`anim.lua`) and dedicated keys for session restoration and configuration access.
+- **System Utilities**: Orchestrates smooth scrolling, stylized input fields, and a notification system capable of handling complex text wrapping.
 
----
+## Contributing
+
+Contributions are welcome! If you want to improve Uroboros, follow these steps:
+
+### How to Contribute
+
+1. **Fork the repository** on GitHub
+2. **Clone your fork** to your local machine:
+```bash
+   git clone https://github.com/your-username/uroboros.git
+```
+3. **Create a new branch** for your feature or fix:
+```bash
+   git checkout -b feature/your-feature-name
+```
+4. **Make your changes** and test them thoroughly
+5. **Commit your changes** with a clear message:
+```bash
+   git commit -m "Add feature: your feature description"
+```
+6. **Push to your fork**:
+```bash
+   git push origin feature/your-feature-name
+```
+7. **Open a Pull Request** on the main repository
+
+### Contribution Guidelines
+
+- Keep the config minimal and focused on performance
+- Test your changes on both Linux/macOS and Windows if possible
+- Document any new keybindings or features in comments
+- Follow the existing code style and structure
+- Make sure plugins added are actively maintained
+
+### Reporting Issues
+
+Found a bug or have a suggestion? Open an issue on the [GitHub Issues](https://github.com/omnimistic/uroboros/issues) page with:
+- A clear description of the problem or suggestion
+- Steps to reproduce (for bugs)
+- Your system info (OS, Neovim version)
+
+All contributions, big or small, are appreciated!

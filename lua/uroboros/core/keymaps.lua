@@ -7,6 +7,8 @@ local keymap = vim.keymap
 -- Custom Uroboros keymaps here
 
 -- Clear search highlights silently on Esc
+-- Using expr=true allows the function to return the actual Escape keystroke
+-- so it still performs normal Esc behavior (exit insert mode, etc.) after clearing highlights.
 vim.keymap.set("n", "<Esc>", function()
     vim.cmd("noh")             -- Clears the highlights
     return "<Esc>"             -- Sends the actual Escape key
@@ -26,7 +28,9 @@ vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Tab"
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
 -- Close current tab (buffer)
--- Using a silent call to handle the last-buffer edge case
+-- Tries snacks.bufdelete first (handles last-buffer edge case gracefully with notification).
+-- Falls back to vim.cmd("bdelete") if snacks is not available, though bdelete errors on last buffer.
+-- This conditional approach allows the config to work even if snacks plugin is disabled.
 vim.keymap.set("n", "<C-w>", function()
   local bd = require("snacks").bufdelete
   if bd then
@@ -37,6 +41,7 @@ vim.keymap.set("n", "<C-w>", function()
 end, { desc = "Close Tab (Smart)" })
 
 -- Stop Space from moving the cursor in Normal and Visual modes
+-- Space is the leader key; must be remapped to <Nop> to prevent default spacebar behavior (forward search).
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- Return to the Dashboard (Main Menu)
