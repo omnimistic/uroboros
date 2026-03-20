@@ -13,6 +13,8 @@ return {
     vim.cmd("colorscheme kanagawa")
 
     -- Define the groups we want to strip backgrounds from
+    -- This list covers UI elements that should be truly transparent
+    -- (blending with terminal background) rather than colored.
     local groups = {
       "Normal", "NormalNC", "LineNr", "CursorLine", "CursorLineNr",
       "SignColumn", "StatusLine", "StatusLineNC", "EndOfBuffer",
@@ -20,14 +22,20 @@ return {
     }
 
     -- Create the Toggle Function
+    -- Global function allows external access (e.g., keymaps, scripts).
+    -- Toggling by reloading colorscheme (solid) vs. manually setting bg=none (transparent)
+    -- ensures solid mode resets all groups to their original colored backgrounds.
     _G.toggle_transparency = function()
       if vim.g.transparent_enabled then
         -- SWITCH TO SOLID
+        -- Reloading colorscheme restores all group colors to their defaults.
         vim.cmd("colorscheme kanagawa")
         vim.g.transparent_enabled = false
         print("Transparency Off")
       else
         -- SWITCH TO TRANSPARENT
+        -- Manually set each group to bg=none (GUI) and ctermbg=none (terminal).
+        -- This approach is more reliable than trying to read and reset original colors.
         for _, group in ipairs(groups) do
           vim.api.nvim_set_hl(0, group, { bg = "none", ctermbg = "none" })
         end

@@ -5,7 +5,8 @@ return {
     -- 1. Animated Battery Function
     local function animated_battery()
       local animated = { "󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" }
-      -- Cycle through the battery icons based on the current second
+      -- Cycle through the battery icons based on the current second.
+      -- Every 6 seconds, advance to next icon (11 icons * 6s = ~60s loop).
       local sec = tonumber(os.date("%S"))
       local index = (math.floor(sec / 6) % #animated) + 1
       return animated[index]
@@ -16,9 +17,11 @@ return {
       local ok, harpoon = pcall(require, "harpoon")
       if not ok then return "" end
       local list = harpoon:list()
+      -- Get current buffer's full file path to compare against harpoon's saved paths.
       local current_file = vim.api.nvim_buf_get_name(0)
 
       for i, item in ipairs(list.items) do
+        -- Use plain string matching (not regex) since item.value is a file path, not a pattern.
         if item and item.value and string.find(current_file, item.value, 1, true) then
           return "󱡁 " .. i -- Shows the Harpoon icon and the mark number
         end
@@ -29,8 +32,11 @@ return {
     -- 3. Visual Mode Selection Counter
     local function selection_count()
       local mode = vim.fn.mode()
+      -- Check if in visual, line-visual, or block-visual mode.
+      -- The pattern [vV\x16] covers all three visual mode variants.
       if mode:match("[vV\x16]") then
         local lines = math.abs(vim.fn.line('.') - vim.fn.line('v')) + 1
+        -- visual_chars counts selected characters (provided by vim.fn.wordcount()).
         local chars = vim.fn.wordcount().visual_chars
         return string.format("󰒰 %d lines, %d chars", lines, chars)
       end
@@ -39,6 +45,8 @@ return {
 
     -- 4. Alternate File Name
     local function alt_file()
+      -- vim.fn.expand('#:t') gets the alternate file's name (:t strips directory path).
+      -- # refers to the alternate file, useful for quick buffer switching.
       local alt = vim.fn.expand('#:t')
       if alt ~= "" then
         return "󰁯 " .. alt
@@ -52,7 +60,9 @@ return {
       if status == "" then return "" end -- Hide when not loading
 
       local spinners = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-      -- vim.uv is the modern replacement for vim.loop
+      -- vim.uv is the modern replacement for vim.loop (Neovim's libuv bindings).
+      -- hrtime() returns nanoseconds; divide by 1,000,000 to get milliseconds.
+      -- Update spinner every 120ms for a smooth animation effect.
       local ms = vim.uv.hrtime() / 1000000
       local frame = math.floor(ms / 120) % #spinners
       return spinners[frame + 1] .. " " .. status
@@ -63,9 +73,9 @@ return {
       options = {
         theme = "auto",
         globalstatus = true,
-        -- Flame emojis (e0c0, e0c1, e0c2, e0c3)
-        section_separators = { left = '', right = '' },
-        component_separators = { left = '', right = '' },
+        -- Flame emojis (0xE0C0, 0xE0C1, 0xE0C2, 0xE0C3 in decimal form)
+        section_separators = { left = '', right = '' },
+        component_separators = { left = '', right = '' },
       },
       sections = {
         -- Left Side
@@ -95,7 +105,7 @@ return {
         },
         lualine_z = { 
           'location',
-          { 'os.date("%H:%M")', icon = '' }, -- Clock
+          { 'os.date("%H:%M")', icon = '' }, -- Clock
         },
       },
       inactive_sections = {
